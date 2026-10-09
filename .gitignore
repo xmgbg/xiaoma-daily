@@ -1,0 +1,14 @@
+.gradle/
+**/build/
+local.properties
+.idea/
+*.iml
+*.jks
+*.keystore
+
+# 本地设计与说明资料，不上传源码仓库
+README.md
+PROJECT_DESIGN.md
+UI_DESIGN.md
+APP_ICON_CONCEPT.png
+HOME_MOCKUP.png

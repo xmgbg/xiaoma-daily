@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">小马日报</string>
+    <string name="previous_month">上一月</string>
+    <string name="next_month">下一月</string>
+    <string name="previous_symbol">‹</string>
+    <string name="next_symbol">›</string>
+    <string name="no_reports">本月已记录 0 天</string>
+    <string name="empty_day">这天还没有日报</string>
+    <string name="write_today">写今天的日报</string>
+    <string name="write_day">写这天的日报</string>
+    <string name="back">返回</string>
+    <string name="edit_title">写日报</string>
+    <string name="content_label">日报正文</string>
+    <string name="content_hint">记录今天发生的事……</string>
+    <string name="preview_notice">界面预览：输入的内容暂不会保存</string>
+    <string name="save">保存</string>
+    <string name="day_description">%1$s，未写日报</string>
+    <string name="selected_day_description">%1$s，未写日报，已选中</string>
+    <string-array name="weekdays">
+        <item>一</item><item>二</item><item>三</item><item>四</item><item>五</item><item>六</item><item>日</item>
+    </string-array>
+</resources>
