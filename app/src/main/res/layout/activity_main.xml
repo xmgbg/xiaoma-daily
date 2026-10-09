@@ -13,6 +13,7 @@
                 android:text="@string/previous_symbol" android:textSize="28sp" android:contentDescription="@string/previous_month" />
             <TextView android:id="@+id/month" android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:minHeight="56dp" android:gravity="center"
+                android:clickable="true" android:focusable="true" android:background="?android:attr/selectableItemBackground"
                 android:textSize="20sp" android:textStyle="bold" />
             <Button android:id="@+id/next" android:layout_width="48dp" android:layout_height="56dp"
                 android:text="@string/next_symbol" android:textSize="28sp" android:contentDescription="@string/next_month" />

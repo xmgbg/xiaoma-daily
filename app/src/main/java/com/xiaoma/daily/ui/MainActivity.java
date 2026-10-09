@@ -27,6 +27,10 @@ public class MainActivity extends Activity {
         selectedDate = state == null ? ReportDates.today() : state.getString("selectedDate");
         binding.previous.setOnClickListener(view -> changeMonth(-1));
         binding.next.setOnClickListener(view -> changeMonth(1));
+        binding.month.setOnClickListener(view -> {
+            selectedDate = ReportDates.today();
+            renderMonth();
+        });
         binding.today.setOnClickListener(view -> openDay(ReportDates.today()));
         renderMonth();
     }
@@ -39,6 +43,7 @@ public class MainActivity extends Activity {
     private void renderMonth() {
         Calendar month = ReportDates.parse(ReportDates.monthStart(selectedDate));
         binding.month.setText(ReportDates.format(month, "yyyy 年 M 月"));
+        binding.month.setContentDescription(getString(R.string.month_navigation, binding.month.getText()));
         binding.selectedDate.setText(ReportDates.format(ReportDates.parse(selectedDate), "yyyy 年 M 月 d 日，EEEE"));
         binding.calendar.removeAllViews();
         for (String weekday : getResources().getStringArray(R.array.weekdays)) {
