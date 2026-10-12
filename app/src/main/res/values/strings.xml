@@ -17,6 +17,10 @@
     <string name="save">保存</string>
     <string name="save_failed">保存失败，请重试</string>
     <string name="empty_content">请填写日报正文</string>
+    <string name="delete_report">删除日报</string>
+    <string name="delete_confirm">确定删除这天的日报吗？删除后无法恢复。</string>
+    <string name="cancel">取消</string>
+    <string name="delete_failed">删除失败，请重试</string>
     <string name="edit_report">编辑日报</string>
     <string name="report_count">本月已记录 %1$d 天</string>
     <string name="recorded_day_description">%1$s，已写日报</string>

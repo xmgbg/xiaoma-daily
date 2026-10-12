@@ -1,8 +1,11 @@
 package com.xiaoma.daily.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import com.xiaoma.daily.R;
 import com.xiaoma.daily.data.AppDatabase;
@@ -26,6 +29,17 @@ public class DailyDetailActivity extends Activity {
         binding.back.setOnClickListener(view -> finish());
         binding.write.setOnClickListener(view -> startActivity(
                 new Intent(this, EditDailyActivity.class).putExtra(EXTRA_DATE, date)));
+        binding.delete.setOnClickListener(view -> new AlertDialog.Builder(this)
+                .setMessage(R.string.delete_confirm)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.delete_report, (dialog, which) -> AppDatabase.IO.execute(() -> {
+                    try {
+                        AppDatabase.get(this).reports().deleteByDate(date);
+                        runOnUiThread(() -> { if (!isFinishing()) finish(); });
+                    } catch (Exception exception) {
+                        runOnUiThread(() -> Toast.makeText(this, R.string.delete_failed, Toast.LENGTH_SHORT).show());
+                    }
+                })).show());
     }
 
     @Override
@@ -39,6 +53,7 @@ public class DailyDetailActivity extends Activity {
                 if (isFinishing()) return;
                 binding.content.setText(report == null ? getString(R.string.empty_day) : report.content);
                 binding.write.setText(report == null ? R.string.write_day : R.string.edit_report);
+                binding.delete.setVisibility(report == null ? View.GONE : View.VISIBLE);
             });
         });
     }

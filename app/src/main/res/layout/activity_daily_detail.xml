@@ -10,5 +10,7 @@
             android:layout_marginTop="24dp" android:text="@string/empty_day" android:textSize="18sp" />
         <Button android:id="@+id/write" android:layout_width="match_parent" android:layout_height="wrap_content"
             android:layout_marginTop="24dp" android:text="@string/write_day" />
+        <Button android:id="@+id/delete" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" android:text="@string/delete_report" android:visibility="gone" />
     </LinearLayout>
 </ScrollView>
