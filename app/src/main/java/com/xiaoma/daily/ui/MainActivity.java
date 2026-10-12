@@ -3,20 +3,27 @@ package com.xiaoma.daily.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.TextView;
 
 import com.xiaoma.daily.R;
+import com.xiaoma.daily.data.AppDatabase;
 import com.xiaoma.daily.databinding.ActivityMainBinding;
 import com.xiaoma.daily.util.ReportDates;
 
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MainActivity extends Activity {
     private ActivityMainBinding binding;
     private String selectedDate;
+    private Set<String> recordedDates = new HashSet<>();
 
     @Override
     protected void onCreate(Bundle state) {
@@ -29,15 +36,39 @@ public class MainActivity extends Activity {
         binding.next.setOnClickListener(view -> changeMonth(1));
         binding.month.setOnClickListener(view -> {
             selectedDate = ReportDates.today();
+            recordedDates.clear();
             renderMonth();
+            loadMonth();
         });
         binding.today.setOnClickListener(view -> openDay(ReportDates.today()));
         renderMonth();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadMonth();
+    }
+
     private void changeMonth(int offset) {
         selectedDate = ReportDates.shiftMonth(selectedDate, offset);
+        recordedDates.clear();
         renderMonth();
+        loadMonth();
+    }
+
+    private void loadMonth() {
+        String start = ReportDates.monthStart(selectedDate);
+        String end = ReportDates.shiftMonth(start, 1);
+        AppDatabase.IO.execute(() -> {
+            Set<String> dates = new HashSet<>(AppDatabase.get(this).reports().datesInMonth(start, end));
+            runOnUiThread(() -> {
+                if (!isFinishing() && start.equals(ReportDates.monthStart(selectedDate))) {
+                    recordedDates = dates;
+                    renderMonth();
+                }
+            });
+        });
     }
 
     private void renderMonth() {
@@ -45,6 +76,8 @@ public class MainActivity extends Activity {
         binding.month.setText(ReportDates.format(month, "yyyy 年 M 月"));
         binding.month.setContentDescription(getString(R.string.month_navigation, binding.month.getText()));
         binding.selectedDate.setText(ReportDates.format(ReportDates.parse(selectedDate), "yyyy 年 M 月 d 日，EEEE"));
+        binding.reportCount.setText(getString(R.string.report_count, recordedDates.size()));
+        binding.selectedSummary.setText(recordedDates.contains(selectedDate) ? R.string.recorded_summary : R.string.empty_day);
         binding.calendar.removeAllViews();
         for (String weekday : getResources().getStringArray(R.array.weekdays)) {
             addCell(weekday, null);
@@ -61,7 +94,14 @@ public class MainActivity extends Activity {
 
     private void addCell(String text, String date) {
         TextView cell = new TextView(this);
-        cell.setText(text);
+        if (date != null && recordedDates.contains(date)) {
+            SpannableString marked = new SpannableString(text + "\n●");
+            marked.setSpan(new ForegroundColorSpan(getColor(date.equals(selectedDate) ? R.color.on_accent : R.color.accent)), text.length() + 1,
+                    marked.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            cell.setText(marked);
+        } else {
+            cell.setText(text);
+        }
         cell.setTextSize(16);
         cell.setGravity(Gravity.CENTER);
         GridLayout.LayoutParams params = new GridLayout.LayoutParams();
@@ -76,7 +116,8 @@ public class MainActivity extends Activity {
             cell.setActivated(date.equals(ReportDates.today()));
             cell.setTextColor(getColor(selected ? R.color.on_accent : R.color.text_primary));
             cell.setFocusable(true);
-            cell.setContentDescription(getString(selected ? R.string.selected_day_description : R.string.day_description,
+            cell.setContentDescription(getString(recordedDates.contains(date) ? R.string.recorded_day_description :
+                            selected ? R.string.selected_day_description : R.string.day_description,
                     ReportDates.format(ReportDates.parse(date), "yyyy 年 M 月 d 日，EEEE")));
             cell.setOnClickListener(view -> openDay(date));
         } else if (text.isEmpty()) {
