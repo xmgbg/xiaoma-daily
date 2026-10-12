@@ -31,6 +31,8 @@ public class DailyDetailActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        TextSizeSettings.apply(binding.date, 24);
+        TextSizeSettings.apply(binding.content, 18);
         AppDatabase.IO.execute(() -> {
             DailyReport report = AppDatabase.get(this).reports().findByDate(date);
             runOnUiThread(() -> {

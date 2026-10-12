@@ -19,6 +19,8 @@ public class EditDailyActivity extends Activity {
         WindowInsetsHelper.apply(binding.getRoot());
         String date = getIntent().getStringExtra(DailyDetailActivity.EXTRA_DATE);
         binding.date.setText(ReportDates.format(ReportDates.parse(date), "yyyy 年 M 月 d 日，EEEE"));
+        TextSizeSettings.apply(binding.date, 18);
+        TextSizeSettings.apply(binding.content, 18);
         binding.back.setOnClickListener(view -> finish());
         binding.save.setEnabled(false);
         AppDatabase.IO.execute(() -> {

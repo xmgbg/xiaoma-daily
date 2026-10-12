@@ -1,6 +1,7 @@
 package com.xiaoma.daily.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -41,13 +42,29 @@ public class MainActivity extends Activity {
             loadMonth();
         });
         binding.today.setOnClickListener(view -> openDay(ReportDates.today()));
+        binding.textSize.setOnClickListener(view -> new AlertDialog.Builder(this)
+                .setTitle(R.string.text_size_title)
+                .setSingleChoiceItems(R.array.text_size_levels, TextSizeSettings.level(this), (dialog, choice) -> {
+                    TextSizeSettings.setLevel(this, choice);
+                    applyTextSize();
+                    renderMonth();
+                    dialog.dismiss();
+                }).show());
         renderMonth();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        applyTextSize();
         loadMonth();
+    }
+
+    private void applyTextSize() {
+        TextSizeSettings.apply(binding.month, 20);
+        TextSizeSettings.apply(binding.reportCount, 16);
+        TextSizeSettings.apply(binding.selectedDate, 20);
+        TextSizeSettings.apply(binding.selectedSummary, 18);
     }
 
     private void changeMonth(int offset) {
@@ -102,7 +119,7 @@ public class MainActivity extends Activity {
         } else {
             cell.setText(text);
         }
-        cell.setTextSize(16);
+        TextSizeSettings.apply(cell, 16);
         cell.setGravity(Gravity.CENTER);
         GridLayout.LayoutParams params = new GridLayout.LayoutParams();
         params.width = 0;

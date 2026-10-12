@@ -21,6 +21,9 @@
     <string name="report_count">本月已记录 %1$d 天</string>
     <string name="recorded_day_description">%1$s，已写日报</string>
     <string name="recorded_summary">这天已写日报，点击日期可阅读</string>
+    <string name="text_size">Aa 字号</string>
+    <string name="text_size_title">选择字号</string>
+    <string-array name="text_size_levels"><item>小</item><item>标准</item><item>大</item><item>特大</item></string-array>
     <string name="day_description">%1$s，未写日报</string>
     <string name="selected_day_description">%1$s，未写日报，已选中</string>
     <string-array name="weekdays">
