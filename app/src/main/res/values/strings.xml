@@ -14,8 +14,10 @@
     <string name="edit_title">写日报</string>
     <string name="content_label">日报正文</string>
     <string name="content_hint">记录今天发生的事……</string>
-    <string name="preview_notice">界面预览：输入的内容暂不会保存</string>
     <string name="save">保存</string>
+    <string name="save_failed">保存失败，请重试</string>
+    <string name="empty_content">请填写日报正文</string>
+    <string name="edit_report">编辑日报</string>
     <string name="day_description">%1$s，未写日报</string>
     <string name="selected_day_description">%1$s，未写日报，已选中</string>
     <string-array name="weekdays">

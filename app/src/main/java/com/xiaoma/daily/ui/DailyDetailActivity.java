@@ -4,22 +4,40 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.xiaoma.daily.R;
+import com.xiaoma.daily.data.AppDatabase;
+import com.xiaoma.daily.data.DailyReport;
 import com.xiaoma.daily.databinding.ActivityDailyDetailBinding;
 import com.xiaoma.daily.util.ReportDates;
 
 public class DailyDetailActivity extends Activity {
     public static final String EXTRA_DATE = "reportDate";
+    private ActivityDailyDetailBinding binding;
+    private String date;
 
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
-        ActivityDailyDetailBinding binding = ActivityDailyDetailBinding.inflate(getLayoutInflater());
+        binding = ActivityDailyDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         WindowInsetsHelper.apply(binding.getRoot());
-        String date = getIntent().getStringExtra(EXTRA_DATE);
+        date = getIntent().getStringExtra(EXTRA_DATE);
         binding.date.setText(ReportDates.format(ReportDates.parse(date), "yyyy 年 M 月 d 日，EEEE"));
         binding.back.setOnClickListener(view -> finish());
         binding.write.setOnClickListener(view -> startActivity(
                 new Intent(this, EditDailyActivity.class).putExtra(EXTRA_DATE, date)));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppDatabase.IO.execute(() -> {
+            DailyReport report = AppDatabase.get(this).reports().findByDate(date);
+            runOnUiThread(() -> {
+                if (isFinishing()) return;
+                binding.content.setText(report == null ? getString(R.string.empty_day) : report.content);
+                binding.write.setText(report == null ? R.string.write_day : R.string.edit_report);
+            });
+        });
     }
 }
