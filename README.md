@@ -17,13 +17,6 @@
 
 按日期记录自由文本，一天一篇；在月历中查看已写日期，点击日期阅读、编辑或删除当天的日报。数据保存在设备本地，无需账号或网络。
 
-## 技术栈
-
-- Java 17 + Android Views/XML，使用 ViewBinding 访问页面控件。
-- Room 2.7.2 + SQLite 保存日报；`SharedPreferences` 保存字号档位。
-- Gradle Wrapper 8.11.1、Android Gradle Plugin 8.9.2。
-- `minSdk 24`（Android 7.0），`compileSdk` / `targetSdk 35`。
-
 ## 项目架构
 
 ```text
