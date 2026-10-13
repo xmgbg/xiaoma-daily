@@ -1,6 +1,21 @@
-# 小马日报
+<div align="center">
+  <img src="app/src/main/res/drawable-nodpi/launcher_art.png" alt="小马日报 Logo：小马头像与日历" width="220" />
 
-一款离线使用的原生 Android 日报应用。按日期记录自由文本，一天一篇；首页用月历查看已写日期，点击日期阅读、编辑或删除当天的日报。
+  <h1>小马日报</h1>
+  <p><strong>把每一天，认真记下来。</strong></p>
+  <p>一款离线使用的原生 Android 日报应用 · 自由文本记录 · 月历回顾</p>
+
+  <p>
+    <img src="https://img.shields.io/badge/Java-17-416D5A?style=flat-square&amp;logo=openjdk&amp;logoColor=white" alt="Java 17" />
+    <img src="https://img.shields.io/badge/Android-Views%20%2B%20XML-416D5A?style=flat-square&amp;logo=android&amp;logoColor=white" alt="Android Views + XML" />
+    <img src="https://img.shields.io/badge/Room-2.7.2-416D5A?style=flat-square&amp;logo=sqlite&amp;logoColor=white" alt="Room 2.7.2" />
+    <img src="https://img.shields.io/badge/minSdk-24-416D5A?style=flat-square&amp;logo=android&amp;logoColor=white" alt="最低 Android API 24" />
+  </p>
+</div>
+
+---
+
+按日期记录自由文本，一天一篇；在月历中查看已写日期，点击日期阅读、编辑或删除当天的日报。数据保存在设备本地，无需账号或网络。
 
 ## 技术栈
 
