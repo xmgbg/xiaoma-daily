@@ -42,6 +42,9 @@ public class MainActivity extends Activity {
             loadMonth();
         });
         binding.today.setOnClickListener(view -> openDay(ReportDates.today()));
+        binding.navCalendar.setContentDescription(getString(R.string.current_calendar));
+        binding.navCalendar.setSelected(true);
+        binding.navMine.setOnClickListener(view -> startActivity(new Intent(this, MineActivity.class)));
         binding.textSize.setOnClickListener(view -> new AlertDialog.Builder(this)
                 .setTitle(R.string.text_size_title)
                 .setSingleChoiceItems(R.array.text_size_levels, TextSizeSettings.level(this), (dialog, choice) -> {

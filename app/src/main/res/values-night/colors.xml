@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="surface">#17201B</color>
+    <color name="avatar_surface">#2D4135</color>
     <color name="text_primary">#EBF1EC</color>
     <color name="text_secondary">#BAC9BF</color>
     <color name="accent">#A4D0B8</color>

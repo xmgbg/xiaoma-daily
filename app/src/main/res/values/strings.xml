@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">小马日报</string>
+    <string name="nav_calendar">日历</string>
+    <string name="nav_mine">我的</string>
+    <string name="current_calendar">日历，当前页面</string>
+    <string name="current_mine">我的，当前页面</string>
+    <string name="mine_title">我的</string>
+    <string name="avatar_title">个人头像</string>
+    <string name="avatar_local">头像仅保存在这台设备</string>
+    <string name="avatar_description">当前头像</string>
+    <string name="change_avatar">更换头像</string>
+    <string name="avatar_failed">头像设置失败，请换一张图片</string>
+    <string name="backup_title">数据备份</string>
+    <string name="backup_description">仅备份日报，不包含头像和字号。导入时不会覆盖本机已有日报。</string>
+    <string name="export_reports">导出全部日报</string>
+    <string name="import_reports">导入日报</string>
+    <string name="export_failed">导出失败，请重试</string>
+    <string name="export_success">已导出 %1$d 篇日报</string>
+    <string name="import_invalid">导入失败：%1$s</string>
+    <string name="import_confirm">文件含 %1$d 篇日报，其中 %2$d 篇日期已存在。确认导入其余日报吗？</string>
+    <string name="import_success">新增 %1$d 篇，跳过 %2$d 篇</string>
+    <string name="confirm_import">确认导入</string>
     <string name="previous_month">上一月</string>
     <string name="next_month">下一月</string>
     <string name="month_navigation">%1$s，点击回到今天</string>

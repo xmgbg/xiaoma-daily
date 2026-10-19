@@ -2,6 +2,7 @@ package com.xiaoma.daily.data;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -15,8 +16,14 @@ public interface DailyReportDao {
     @Query("SELECT reportDate FROM daily_reports WHERE reportDate >= :start AND reportDate < :end")
     List<String> datesInMonth(String start, String end);
 
+    @Query("SELECT * FROM daily_reports ORDER BY reportDate ASC")
+    List<DailyReport> allByDate();
+
     @Insert
     void insert(DailyReport report);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    long insertIfAbsent(DailyReport report);
 
     @Update
     void update(DailyReport report);

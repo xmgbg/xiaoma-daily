@@ -42,4 +42,29 @@ public class DailyReportDaoTest {
             database.close();
         }
     }
+
+    @Test
+    public void importDuplicateDateKeepsLocalReport() {
+        AppDatabase database = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(),
+                AppDatabase.class).allowMainThreadQueries().build();
+        try {
+            DailyReport local = new DailyReport();
+            local.reportDate = "2026-10-12";
+            local.content = "本机正文";
+            local.createdAt = 1;
+            local.updatedAt = 1;
+            database.reports().insert(local);
+
+            DailyReport imported = new DailyReport();
+            imported.reportDate = "2026-10-12";
+            imported.content = "备份正文";
+            imported.createdAt = 2;
+            imported.updatedAt = 2;
+            assertEquals(-1, database.reports().insertIfAbsent(imported));
+            assertEquals("本机正文", database.reports().findByDate("2026-10-12").content);
+            assertEquals(1, database.reports().allByDate().size());
+        } finally {
+            database.close();
+        }
+    }
 }

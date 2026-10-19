@@ -6,6 +6,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.XiaomaDaily">
+        <activity android:name=".ui.MineActivity" android:exported="false" />
         <activity android:name=".ui.EditDailyActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.DailyDetailActivity" android:exported="false" />
         <activity android:name=".ui.MainActivity" android:exported="true">
