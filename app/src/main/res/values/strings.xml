@@ -36,6 +36,9 @@
     <string name="content_hint">记录今天发生的事……</string>
     <string name="save">保存</string>
     <string name="save_failed">保存失败，请重试</string>
+    <string name="unsaved_changes">这篇日报有未保存的修改，离开后修改会丢失。</string>
+    <string name="continue_editing">继续编辑</string>
+    <string name="discard_changes">放弃修改</string>
     <string name="empty_content">请填写日报正文</string>
     <string name="delete_report">删除日报</string>
     <string name="delete_confirm">确定删除这天的日报吗？删除后无法恢复。</string>
