@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical" android:background="@color/surface">
+    android:orientation="vertical">
     <ScrollView android:layout_width="match_parent" android:layout_height="0dp"
         android:layout_weight="1" android:fillViewport="true">
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="vertical" android:padding="20dp">
+            android:orientation="vertical" android:paddingStart="20dp" android:paddingEnd="20dp"
+            android:paddingTop="24dp" android:paddingBottom="28dp">
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:text="@string/mine_title" android:textSize="28sp" android:textStyle="bold"
                 android:textColor="@color/text_primary" android:accessibilityHeading="true" />
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:layout_marginTop="32dp" android:orientation="vertical" android:gravity="center_horizontal">
-                <ImageView android:id="@+id/avatar" android:layout_width="96dp" android:layout_height="96dp"
+                android:layout_marginTop="28dp" android:orientation="vertical" android:gravity="center_horizontal">
+                <ImageView android:id="@+id/avatar" android:layout_width="108dp" android:layout_height="108dp"
                     android:background="@drawable/avatar_background" android:clipToOutline="true"
                     android:scaleType="centerCrop" android:src="@drawable/launcher_art"
                     android:contentDescription="@string/avatar_description" />
@@ -20,35 +21,81 @@
                     android:textSize="20sp" android:textStyle="bold" android:textColor="@color/text_primary"
                     android:gravity="center" />
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp" android:text="@string/avatar_local"
+                    android:layout_marginTop="5dp" android:text="@string/avatar_local"
                     android:textSize="14sp" android:textColor="@color/text_secondary" android:gravity="center" />
                 <Button android:id="@+id/changeAvatar" android:layout_width="wrap_content"
-                    android:layout_height="48dp" android:layout_marginTop="16dp"
-                    android:text="@string/change_avatar" />
+                    android:layout_height="48dp" android:layout_marginTop="18dp"
+                    android:paddingStart="24dp" android:paddingEnd="24dp"
+                    android:background="@drawable/button_soft" android:text="@string/change_avatar"
+                    android:textAllCaps="false" android:textSize="14sp" android:textColor="@color/accent" />
             </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:layout_marginTop="36dp" android:background="@color/divider" />
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:layout_marginTop="40dp" android:text="@string/backup_title"
+                android:layout_marginTop="24dp" android:text="@string/backup_title"
                 android:textSize="20sp" android:textStyle="bold" android:textColor="@color/text_primary"
                 android:accessibilityHeading="true" />
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:layout_marginTop="8dp" android:text="@string/backup_description"
-                android:textSize="15sp" android:textColor="@color/text_secondary" />
-            <Button android:id="@+id/exportReports" android:layout_width="match_parent"
-                android:layout_height="56dp" android:layout_marginTop="20dp"
-                android:text="@string/export_reports" android:backgroundTint="@color/accent"
-                android:textColor="@color/on_accent" />
-            <Button android:id="@+id/importReports" android:layout_width="match_parent"
-                android:layout_height="56dp" android:layout_marginTop="8dp"
-                android:text="@string/import_reports" />
+                android:textSize="14sp" android:lineSpacingExtra="3dp" android:textColor="@color/text_secondary" />
+            <LinearLayout android:id="@+id/exportReports" android:layout_width="match_parent"
+                android:layout_height="72dp" android:layout_marginTop="20dp"
+                android:paddingStart="18dp" android:paddingEnd="18dp" android:gravity="center_vertical"
+                android:clickable="true" android:focusable="true" android:background="@drawable/backup_row"
+                android:contentDescription="@string/export_reports">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                    android:src="@drawable/ic_export" android:tint="@color/accent"
+                    android:importantForAccessibility="no" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:layout_marginStart="16dp"
+                    android:text="@string/export_reports" android:textSize="16sp"
+                    android:textColor="@color/text_primary" android:importantForAccessibility="no" />
+                <TextView android:layout_width="24dp" android:layout_height="wrap_content"
+                    android:gravity="end" android:text="@string/next_symbol" android:textSize="24sp"
+                    android:textColor="@color/text_secondary" android:importantForAccessibility="no" />
+            </LinearLayout>
+            <LinearLayout android:id="@+id/importReports" android:layout_width="match_parent"
+                android:layout_height="72dp" android:layout_marginTop="10dp"
+                android:paddingStart="18dp" android:paddingEnd="18dp" android:gravity="center_vertical"
+                android:clickable="true" android:focusable="true" android:background="@drawable/backup_row"
+                android:contentDescription="@string/import_reports">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                    android:src="@drawable/ic_import" android:tint="@color/accent"
+                    android:importantForAccessibility="no" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:layout_marginStart="16dp"
+                    android:text="@string/import_reports" android:textSize="16sp"
+                    android:textColor="@color/text_primary" android:importantForAccessibility="no" />
+                <TextView android:layout_width="24dp" android:layout_height="wrap_content"
+                    android:gravity="end" android:text="@string/next_symbol" android:textSize="24sp"
+                    android:textColor="@color/text_secondary" android:importantForAccessibility="no" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="56dp"
-        android:orientation="horizontal" android:background="@color/surface" android:elevation="4dp">
-        <Button android:id="@+id/navCalendar" android:layout_width="0dp" android:layout_height="match_parent"
-            android:layout_weight="1" android:background="?android:attr/selectableItemBackground"
-            android:text="@string/nav_calendar" android:textColor="@color/text_secondary" />
-        <Button android:id="@+id/navMine" android:layout_width="0dp" android:layout_height="match_parent"
-            android:layout_weight="1" android:background="?android:attr/selectableItemBackground"
-            android:text="@string/nav_mine" android:textColor="@color/accent" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="64dp"
+        android:orientation="horizontal" android:baselineAligned="false" android:background="@color/surface_elevated"
+        android:elevation="4dp">
+        <LinearLayout android:id="@+id/navCalendar" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical"
+            android:gravity="center" android:clickable="true" android:focusable="true"
+            android:background="?android:attr/selectableItemBackground" android:contentDescription="@string/nav_calendar">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_calendar" android:tint="@color/text_secondary"
+                android:importantForAccessibility="no" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginTop="2dp" android:text="@string/nav_calendar" android:textSize="12sp"
+                android:textColor="@color/text_secondary" android:importantForAccessibility="no" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/navMine" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical"
+            android:gravity="center" android:clickable="true" android:focusable="true"
+            android:background="?android:attr/selectableItemBackground">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_person" android:tint="@color/accent"
+                android:importantForAccessibility="no" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginTop="2dp" android:text="@string/nav_mine" android:textSize="12sp"
+                android:textColor="@color/accent" android:importantForAccessibility="no" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
