@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.xiaoma.daily.R;
 import com.xiaoma.daily.data.AppDatabase;
+import com.xiaoma.daily.data.DailyReport;
 import com.xiaoma.daily.databinding.ActivityMainBinding;
 import com.xiaoma.daily.util.ReportDates;
 
@@ -24,6 +25,7 @@ import java.util.Set;
 public class MainActivity extends Activity {
     private ActivityMainBinding binding;
     private String selectedDate;
+    private String selectedPreview;
     private Set<String> recordedDates = new HashSet<>();
 
     @Override
@@ -37,11 +39,13 @@ public class MainActivity extends Activity {
         binding.next.setOnClickListener(view -> changeMonth(1));
         binding.month.setOnClickListener(view -> {
             selectedDate = ReportDates.today();
+            selectedPreview = null;
             recordedDates.clear();
             renderMonth();
             loadMonth();
         });
         binding.today.setOnClickListener(view -> openDay(ReportDates.today()));
+        binding.selectedAction.setOnClickListener(view -> openDay(selectedDate));
         binding.navCalendar.setContentDescription(getString(R.string.current_calendar));
         binding.navCalendar.setSelected(true);
         binding.navMine.setOnClickListener(view -> startActivity(new Intent(this, MineActivity.class)));
@@ -65,26 +69,31 @@ public class MainActivity extends Activity {
 
     private void applyTextSize() {
         TextSizeSettings.apply(binding.month, 20);
-        TextSizeSettings.apply(binding.reportCount, 16);
+        TextSizeSettings.apply(binding.reportCount, 14);
         TextSizeSettings.apply(binding.selectedDate, 20);
-        TextSizeSettings.apply(binding.selectedSummary, 18);
+        TextSizeSettings.apply(binding.selectedSummary, 16);
+        TextSizeSettings.apply(binding.selectedAction, 14);
     }
 
     private void changeMonth(int offset) {
         selectedDate = ReportDates.shiftMonth(selectedDate, offset);
+        selectedPreview = null;
         recordedDates.clear();
         renderMonth();
         loadMonth();
     }
 
     private void loadMonth() {
+        String date = selectedDate;
         String start = ReportDates.monthStart(selectedDate);
         String end = ReportDates.shiftMonth(start, 1);
         AppDatabase.IO.execute(() -> {
             Set<String> dates = new HashSet<>(AppDatabase.get(this).reports().datesInMonth(start, end));
+            DailyReport report = AppDatabase.get(this).reports().findByDate(date);
             runOnUiThread(() -> {
-                if (!isFinishing() && start.equals(ReportDates.monthStart(selectedDate))) {
+                if (!isFinishing() && date.equals(selectedDate)) {
                     recordedDates = dates;
+                    selectedPreview = report == null ? null : report.content;
                     renderMonth();
                 }
             });
@@ -97,7 +106,10 @@ public class MainActivity extends Activity {
         binding.month.setContentDescription(getString(R.string.month_navigation, binding.month.getText()));
         binding.selectedDate.setText(ReportDates.format(ReportDates.parse(selectedDate), "yyyy 年 M 月 d 日，EEEE"));
         binding.reportCount.setText(getString(R.string.report_count, recordedDates.size()));
-        binding.selectedSummary.setText(recordedDates.contains(selectedDate) ? R.string.recorded_summary : R.string.empty_day);
+        binding.selectedSummary.setText(recordedDates.contains(selectedDate)
+                ? selectedPreview == null ? getString(R.string.recorded_summary) : selectedPreview
+                : getString(R.string.empty_day));
+        binding.selectedAction.setText(recordedDates.contains(selectedDate) ? R.string.view_day : R.string.write_day_short);
         binding.calendar.removeAllViews();
         for (String weekday : getResources().getStringArray(R.array.weekdays)) {
             addCell(weekday, null);
@@ -148,6 +160,7 @@ public class MainActivity extends Activity {
 
     private void openDay(String date) {
         selectedDate = date;
+        selectedPreview = null;
         renderMonth();
         startActivity(new Intent(this, DailyDetailActivity.class).putExtra(DailyDetailActivity.EXTRA_DATE, date));
     }

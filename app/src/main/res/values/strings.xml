@@ -29,6 +29,9 @@
     <string name="no_reports">本月已记录 0 天</string>
     <string name="empty_day">这天还没有日报</string>
     <string name="write_today">写今天的日报</string>
+    <string name="add_symbol">+</string>
+    <string name="view_day">查看日报 ›</string>
+    <string name="write_day_short">写日报 ›</string>
     <string name="write_day">写这天的日报</string>
     <string name="back">返回</string>
     <string name="edit_title">写日报</string>
