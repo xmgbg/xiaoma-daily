@@ -155,7 +155,12 @@ public class MainActivity extends Activity {
             cell.setContentDescription(getString(recordedDates.contains(date) ? R.string.recorded_day_description :
                             selected ? R.string.selected_day_description : R.string.day_description,
                     ReportDates.format(ReportDates.parse(date), "yyyy 年 M 月 d 日，EEEE")));
-            cell.setOnClickListener(view -> openDay(date));
+            cell.setOnClickListener(view -> {
+                selectedDate = date;
+                selectedPreview = null;
+                renderMonth();
+                loadMonth();
+            });
         } else if (text.isEmpty()) {
             cell.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
         } else {
