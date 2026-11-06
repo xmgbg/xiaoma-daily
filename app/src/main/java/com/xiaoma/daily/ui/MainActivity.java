@@ -25,6 +25,8 @@ import java.util.Set;
 
 public class MainActivity extends Activity {
     private ActivityMainBinding binding;
+    private MinePage minePage;
+    private boolean showingMine;
     private String selectedDate;
     private String selectedPreview;
     private Set<String> recordedDates = new HashSet<>();
@@ -50,7 +52,7 @@ public class MainActivity extends Activity {
         binding.selectedAction.setOnClickListener(view -> openDay(selectedDate));
         binding.navCalendar.setContentDescription(getString(R.string.current_calendar));
         binding.navCalendar.setSelected(true);
-        binding.navMine.setOnClickListener(view -> startActivity(new Intent(this, MineActivity.class)));
+        binding.navMine.setOnClickListener(view -> showPage(true));
         binding.textSize.setOnClickListener(view -> new AlertDialog.Builder(this)
                 .setTitle(R.string.text_size_title)
                 .setSingleChoiceItems(R.array.text_size_levels, TextSizeSettings.level(this), (dialog, choice) -> {
@@ -60,6 +62,7 @@ public class MainActivity extends Activity {
                     dialog.dismiss();
                 }).show());
         renderMonth();
+        if (state != null && state.getBoolean("showingMine")) showPage(true);
     }
 
     @Override
@@ -176,9 +179,36 @@ public class MainActivity extends Activity {
         startActivity(new Intent(this, DailyDetailActivity.class).putExtra(DailyDetailActivity.EXTRA_DATE, date));
     }
 
+    private void showPage(boolean mine) {
+        if (mine == showingMine) return;
+        if (minePage == null) {
+            minePage = new MinePage(this, () -> showPage(false));
+            binding.getRoot().addView(minePage.getRoot());
+        }
+        showingMine = mine;
+        binding.calendarPage.setVisibility(mine ? View.GONE : View.VISIBLE);
+        minePage.getRoot().setVisibility(mine ? View.VISIBLE : View.GONE);
+        if (!mine) loadMonth();
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (minePage != null) minePage.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public void onBackPressed() {
+        if (showingMine) showPage(false);
+        else super.onBackPressed();
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle state) {
         state.putString("selectedDate", selectedDate);
+        state.putBoolean("showingMine", showingMine);
         super.onSaveInstanceState(state);
     }
 }
