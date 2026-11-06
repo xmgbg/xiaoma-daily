@@ -4,6 +4,10 @@
     <string name="font_symbol">Aa</string>
     <string name="today_label">今天</string>
     <string name="day_report">当天日报</string>
+    <string name="back_calendar">‹ 日历</string>
+    <string name="edit_short">编辑</string>
+    <string name="more_symbol">⋯</string>
+    <string name="more_actions">更多操作</string>
     <string name="nav_calendar">日历</string>
     <string name="nav_mine">我的</string>
     <string name="current_calendar">日历，当前页面</string>

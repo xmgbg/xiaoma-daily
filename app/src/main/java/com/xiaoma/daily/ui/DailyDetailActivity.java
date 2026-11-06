@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+import android.widget.PopupMenu;
 
 import com.xiaoma.daily.R;
 import com.xiaoma.daily.data.AppDatabase;
@@ -25,11 +26,24 @@ public class DailyDetailActivity extends Activity {
         setContentView(binding.getRoot());
         WindowInsetsHelper.apply(binding.getRoot());
         date = getIntent().getStringExtra(EXTRA_DATE);
-        binding.date.setText(ReportDates.format(ReportDates.parse(date), "yyyy 年 M 月 d 日，EEEE"));
+        binding.date.setText(ReportDates.format(ReportDates.parse(date), "M月d日"));
+        binding.dateMeta.setText(ReportDates.format(ReportDates.parse(date), "yyyy年 · EEEE"));
         binding.back.setOnClickListener(view -> finish());
         binding.write.setOnClickListener(view -> startActivity(
                 new Intent(this, EditDailyActivity.class).putExtra(EXTRA_DATE, date)));
-        binding.delete.setOnClickListener(view -> new AlertDialog.Builder(this)
+        binding.editAction.setOnClickListener(view -> binding.write.performClick());
+        binding.more.setOnClickListener(view -> {
+            PopupMenu menu = new PopupMenu(this, binding.more);
+            menu.getMenu().add(R.string.delete_report).setOnMenuItemClickListener(item -> {
+                confirmDelete();
+                return true;
+            });
+            menu.show();
+        });
+    }
+
+    private void confirmDelete() {
+        new AlertDialog.Builder(this)
                 .setMessage(R.string.delete_confirm)
                 .setNegativeButton(R.string.cancel, null)
                 .setPositiveButton(R.string.delete_report, (dialog, which) -> AppDatabase.IO.execute(() -> {
@@ -39,21 +53,24 @@ public class DailyDetailActivity extends Activity {
                     } catch (Exception exception) {
                         runOnUiThread(() -> Toast.makeText(this, R.string.delete_failed, Toast.LENGTH_SHORT).show());
                     }
-                })).show());
+                })).show();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        TextSizeSettings.apply(binding.date, 24);
-        TextSizeSettings.apply(binding.content, 18);
+        TextSizeSettings.apply(binding.date, 26);
+        TextSizeSettings.apply(binding.dateMeta, 13);
+        TextSizeSettings.apply(binding.content, 16);
+        TextSizeSettings.apply(binding.write, 14);
         AppDatabase.IO.execute(() -> {
             DailyReport report = AppDatabase.get(this).reports().findByDate(date);
             runOnUiThread(() -> {
                 if (isFinishing()) return;
                 binding.content.setText(report == null ? getString(R.string.empty_day) : report.content);
                 binding.write.setText(report == null ? R.string.write_day : R.string.edit_report);
-                binding.delete.setVisibility(report == null ? View.GONE : View.VISIBLE);
+                binding.editAction.setText(report == null ? R.string.edit_title : R.string.edit_short);
+                binding.more.setVisibility(report == null ? View.GONE : View.VISIBLE);
             });
         });
     }
