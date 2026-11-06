@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">小马日报</string>
+    <string name="font_symbol">Aa</string>
+    <string name="today_label">今天</string>
+    <string name="day_report">当天日报</string>
     <string name="nav_calendar">日历</string>
     <string name="nav_mine">我的</string>
     <string name="current_calendar">日历，当前页面</string>

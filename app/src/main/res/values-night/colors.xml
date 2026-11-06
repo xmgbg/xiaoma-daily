@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="surface">#17201B</color>
-    <color name="surface_elevated">#24352B</color>
-    <color name="divider">#355044</color>
+    <color name="surface">#191B1D</color>
+    <color name="surface_elevated">#25282A</color>
+    <color name="navigation_surface">#EF25282A</color>
+    <color name="divider">#3D4245</color>
     <color name="soft_accent">#304D3C</color>
     <color name="avatar_surface">#2D4135</color>
     <color name="text_primary">#EBF1EC</color>

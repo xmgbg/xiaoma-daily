@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.GridLayout;
@@ -45,6 +46,7 @@ public class MainActivity extends Activity {
             loadMonth();
         });
         binding.today.setOnClickListener(view -> openDay(ReportDates.today()));
+        binding.monthReset.setOnClickListener(view -> binding.month.performClick());
         binding.selectedAction.setOnClickListener(view -> openDay(selectedDate));
         binding.navCalendar.setContentDescription(getString(R.string.current_calendar));
         binding.navCalendar.setSelected(true);
@@ -68,9 +70,9 @@ public class MainActivity extends Activity {
     }
 
     private void applyTextSize() {
-        TextSizeSettings.apply(binding.month, 20);
-        TextSizeSettings.apply(binding.reportCount, 14);
-        TextSizeSettings.apply(binding.selectedDate, 20);
+        TextSizeSettings.apply(binding.month, 18);
+        TextSizeSettings.apply(binding.reportCount, 13);
+        TextSizeSettings.apply(binding.selectedDate, 18);
         TextSizeSettings.apply(binding.selectedSummary, 16);
         TextSizeSettings.apply(binding.selectedAction, 14);
     }
@@ -102,9 +104,9 @@ public class MainActivity extends Activity {
 
     private void renderMonth() {
         Calendar month = ReportDates.parse(ReportDates.monthStart(selectedDate));
-        binding.month.setText(ReportDates.format(month, "yyyy 年 M 月"));
+        binding.month.setText(ReportDates.format(month, "yyyy年M月"));
         binding.month.setContentDescription(getString(R.string.month_navigation, binding.month.getText()));
-        binding.selectedDate.setText(ReportDates.format(ReportDates.parse(selectedDate), "yyyy 年 M 月 d 日，EEEE"));
+        binding.selectedDate.setText(ReportDates.format(ReportDates.parse(selectedDate), "M月d日  EEEE"));
         binding.reportCount.setText(getString(R.string.report_count, recordedDates.size()));
         binding.selectedSummary.setText(recordedDates.contains(selectedDate)
                 ? selectedPreview == null ? getString(R.string.recorded_summary) : selectedPreview
@@ -126,19 +128,21 @@ public class MainActivity extends Activity {
 
     private void addCell(String text, String date) {
         TextView cell = new TextView(this);
-        if (date != null && recordedDates.contains(date)) {
-            SpannableString marked = new SpannableString(text + "\n●");
+        cell.setIncludeFontPadding(false);
+        if (date != null) {
+            SpannableString marked = new SpannableString(text + (recordedDates.contains(date) ? "\n●" : "\n "));
             marked.setSpan(new ForegroundColorSpan(getColor(date.equals(selectedDate) ? R.color.on_accent : R.color.accent)), text.length() + 1,
                     marked.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            marked.setSpan(new RelativeSizeSpan(0.35f), text.length() + 1, marked.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             cell.setText(marked);
         } else {
             cell.setText(text);
         }
-        TextSizeSettings.apply(cell, 16);
+        TextSizeSettings.apply(cell, date == null ? 13 : 15);
         cell.setGravity(Gravity.CENTER);
         GridLayout.LayoutParams params = new GridLayout.LayoutParams();
         params.width = 0;
-        params.height = Math.round(56 * getResources().getDisplayMetrics().density);
+        params.height = Math.round((date == null && !text.isEmpty() ? 32 : 48) * getResources().getDisplayMetrics().density);
         params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
         cell.setLayoutParams(params);
         if (date != null) {
@@ -154,6 +158,8 @@ public class MainActivity extends Activity {
             cell.setOnClickListener(view -> openDay(date));
         } else if (text.isEmpty()) {
             cell.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        } else {
+            cell.setTextColor(getColor(R.color.text_secondary));
         }
         binding.calendar.addView(cell);
     }
