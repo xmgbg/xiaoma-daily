@@ -41,6 +41,7 @@ public class MineActivity extends Activity {
         binding = ActivityMineBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         WindowInsetsHelper.apply(binding.getRoot());
+        binding.avatar.setClipToOutline(true);
         binding.navCalendar.setOnClickListener(view -> finish());
         binding.navMine.setSelected(true);
         binding.navMine.setContentDescription(getString(R.string.current_mine));

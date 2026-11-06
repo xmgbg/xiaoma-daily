@@ -15,11 +15,13 @@
     <string name="mine_title">我的</string>
     <string name="avatar_title">个人头像</string>
     <string name="avatar_local">头像仅保存在这台设备</string>
+    <string name="avatar_local_short">仅保存在本机</string>
+    <string name="change_avatar_short">更换 ›</string>
     <string name="avatar_description">当前头像</string>
     <string name="change_avatar">更换头像</string>
     <string name="avatar_failed">头像设置失败，请换一张图片</string>
     <string name="backup_title">数据备份</string>
-    <string name="backup_description">仅备份日报，不包含头像和字号。导入时不会覆盖本机已有日报。</string>
+    <string name="backup_description">导入时保留本机已有日报。\n日报以 JSON 文件保存，不包含头像和字号。</string>
     <string name="export_reports">导出全部日报</string>
     <string name="import_reports">导入日报</string>
     <string name="export_failed">导出失败，请重试</string>
